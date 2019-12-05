@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Form, Input, Button } from "reactstrap";
+import { Form, Input, Button, Row, Col } from "reactstrap";
 
 import { useLogin } from "./hooks/useLogin";
 import { LOGIN } from "./reducers/auth";
@@ -28,21 +28,33 @@ function LoginForm({ storeToken }) {
   }, [response]);
 
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
-        <div>
-          <Input type="email" name="email" value={values.email} onChange={handleChange} />
-        </div>
-        <div>
-          <Input type="password" name="password" value={values.password} onChange={handleChange} />
-        </div>
-        <div>
-          <Button color="success" block type="submit">
-            Login
-          </Button>
-        </div>
-      </Form>
-    </div>
+    <Row>
+      <Col xs={12}>
+        <Form onSubmit={handleSubmit}>
+          <div>
+            <Input
+              type="email"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Input
+              type="password"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Button color="success" block type="submit">
+              Login
+            </Button>
+          </div>
+        </Form>
+      </Col>
+    </Row>
   );
 }
 
@@ -52,4 +64,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default connect(
+  null,
+  mapDispatchToProps
+)(LoginForm);

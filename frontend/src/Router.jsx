@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import Home from "./Home";
 import Sports from "./Sports";
+import TheNavbar from "./Navbar";
 
 function AuthRoute({ isAuth, component: Component, ...rest }) {
   return isAuth ? (
@@ -16,6 +17,7 @@ function AuthRoute({ isAuth, component: Component, ...rest }) {
 function Router({ isAuth }) {
   return (
     <BrowserRouter>
+      <TheNavbar />
       <Switch>
         <Route exact path="/" component={Home} />
         <AuthRoute isAuth={isAuth} path="/sports" component={Sports} />

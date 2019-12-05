@@ -1,18 +1,15 @@
 import React from "react";
+import { Container } from "reactstrap";
+
 import Register from "./Register";
 import Login from "./Login";
 
 function Home() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row"
-      }}
-    >
+    <Container>
       <Register />
       <Login />
-    </div>
+    </Container>
   );
 }
 
