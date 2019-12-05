@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Form, Input, Button } from "reactstrap";
+import { Row, Col, Form, Input, Button, FormGroup } from "reactstrap";
 
 import { useRegister } from "./hooks/useRegister";
 
@@ -11,9 +11,9 @@ function Register() {
   });
   return (
     <Row>
-      <Col xs={12}>
+      <Col xs={{ offset: 3, size: 6 }}>
         <Form onSubmit={handleSubmit}>
-          <div>
+          <FormGroup>
             <Input
               type="email"
               name="email"
@@ -21,8 +21,8 @@ function Register() {
               onChange={handleChange}
               placeholder="email"
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Input
               type="password"
               name="password"
@@ -30,8 +30,8 @@ function Register() {
               onChange={handleChange}
               placeholder="password"
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Input
               type="password"
               name="valPassword"
@@ -39,12 +39,12 @@ function Register() {
               onChange={handleChange}
               placeholder="confirm password"
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Button color="success" block type="submit">
               Register
             </Button>
-          </div>
+          </FormGroup>
         </Form>
       </Col>
     </Row>

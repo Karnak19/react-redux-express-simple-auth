@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Form, Input, Button, Row, Col } from "reactstrap";
+import { Form, Input, Button, Row, Col, FormGroup } from "reactstrap";
 
 import { useLogin } from "./hooks/useLogin";
 import { LOGIN } from "./reducers/auth";
@@ -29,29 +29,29 @@ function LoginForm({ storeToken }) {
 
   return (
     <Row>
-      <Col xs={12}>
+      <Col xs={{ offset: 3, size: 6 }}>
         <Form onSubmit={handleSubmit}>
-          <div>
+          <FormGroup>
             <Input
               type="email"
               name="email"
               value={values.email}
               onChange={handleChange}
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Input
               type="password"
               name="password"
               value={values.password}
               onChange={handleChange}
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Button color="success" block type="submit">
               Login
             </Button>
-          </div>
+          </FormGroup>
         </Form>
       </Col>
     </Row>
