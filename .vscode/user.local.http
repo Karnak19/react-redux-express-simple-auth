@@ -1,0 +1,21 @@
+POST http://localhost:8000/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "basile@toto.com",
+  "password": "azerty"
+}
+
+###
+
+POST http://localhost:8000/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "basile@toto.com",
+  "password": "azerty"
+}
+
+###
+GET http://localhost:8000/sports HTTP/1.1
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJhc2lsZUB0b3RvLmNvbSIsImlhdCI6MTU3NTQ3NTgxMiwiZXhwIjoxNTc1NDc5NDEyfQ.ihKa7KEr9bB65WVSp7C1PWSEp7mbw1rQ3HGz71CMhGM

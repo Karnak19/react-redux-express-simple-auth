@@ -1,4 +1,6 @@
 const Sequelize = require("sequelize");
+const bcrypt = require("bcrypt");
+
 const sequelize = require("../index");
 
 const User = sequelize.define(
@@ -10,23 +12,27 @@ const User = sequelize.define(
       primaryKey: true,
       defaultValue: Sequelize.UUIDV4
     },
-    firstName: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    lastName: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    age: {
-      type: Sequelize.INTEGER
-    },
     email: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    password: {
       type: Sequelize.STRING,
       allowNull: false
     }
   },
-  {}
+  {
+    hooks: {
+      beforeCreate: user => {
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(user.password, salt);
+      }
+    }
+  }
 );
+
+User.prototype.validPassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 module.exports = User;
