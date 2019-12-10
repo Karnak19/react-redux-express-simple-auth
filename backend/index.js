@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8000;
 
 // Get the Sequelize config
 const sequelize = require("./sequelize");
-require("./sequelize/associations"); // If you have associations
+// require("./sequelize/associations"); // If you have associations
 
 // Middlewares
 app.use(cors());
@@ -37,5 +37,5 @@ if (process.env.NODE_ENV !== "test") {
   main();
 }
 
-// If you want to add tests with Mocha & Chai
-// module.exports = app;
+// For testing with chai-http
+module.exports = app;

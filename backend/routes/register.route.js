@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const jwt = require("jsonwebtoken");
+const secret = process.env.SECRET;
+
 const User = require("../sequelize/models/users");
 
 router.post("/", async (req, res) => {
@@ -10,7 +13,11 @@ router.post("/", async (req, res) => {
       email,
       password
     });
-    res.status(201).json({});
+    const payload = { email };
+    const token = jwt.sign(payload, secret, {
+      expiresIn: "1h"
+    });
+    res.status(201).json({ token });
   } catch (err) {
     res.status(422).json(err);
   }

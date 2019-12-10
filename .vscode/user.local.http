@@ -18,4 +18,4 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8000/sports HTTP/1.1
-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJhc2lsZUB0b3RvLmNvbSIsImlhdCI6MTU3NTQ3NTgxMiwiZXhwIjoxNTc1NDc5NDEyfQ.ihKa7KEr9bB65WVSp7C1PWSEp7mbw1rQ3HGz71CMhGM
+token: eyJhbGciOiJIUzI1NiIsInR5CI6IkpXVCJ9.eyJlbWFpbCI6ImJhc2lsZUB0b3RvLmNvbSIsImlhdCI6MTU3NTY0MDM3MCwiZXhwIjoxNTc1NjQzOTcwfQ.3wzij_e5Q2I7wbivvVSDFIqLAmPoQPkoIeo1hKl5PhM

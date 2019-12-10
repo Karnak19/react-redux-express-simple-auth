@@ -2,10 +2,11 @@
 // It's needed when you changes something in your models
 
 const sequelize = require("./index");
-require("./associations");
+// require("./associations");
 
 // This is the {force: true} who drop & recreate the DB
-sequelize.sync({ force: true }).then(() => {
+(async () => {
+  await sequelize.sync({ force: true });
   console.log("Successfully resync Database !");
   process.exit(0);
-});
+})();

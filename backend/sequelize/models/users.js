@@ -23,6 +23,7 @@ const User = sequelize.define(
   },
   {
     hooks: {
+      // Automated hash using this hooks
       beforeCreate: user => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(user.password, salt);
@@ -32,7 +33,7 @@ const User = sequelize.define(
 );
 
 User.prototype.validPassword = function(password) {
-  return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.password); // Boolean
 };
 
 module.exports = User;
