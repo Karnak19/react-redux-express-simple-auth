@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Container, Row, Col } from "reactstrap";
 
 function Sports({ token }) {
   const [sports, setSports] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     const fetchSports = async () => {
@@ -20,11 +19,13 @@ function Sports({ token }) {
   }, []);
 
   return (
-    <div>
-      {sports.map(sport => {
-        return <p>{sport}</p>;
-      })}
-    </div>
+    <Container className="page">
+      <Row>
+        {sports.map(sport => {
+          return <Col>{sport}</Col>;
+        })}
+      </Row>
+    </Container>
   );
 }
 

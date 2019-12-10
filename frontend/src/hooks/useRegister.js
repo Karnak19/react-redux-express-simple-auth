@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 export function useRegister(initialState) {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState(null);
+  const [response, setResponse] = useState(null);
 
   const handleChange = e => {
     setValues({
@@ -20,6 +21,7 @@ export function useRegister(initialState) {
           email: values.email,
           password: values.password
         });
+        setResponse(res);
       } catch (err) {
         console.log(err);
       }
@@ -29,6 +31,7 @@ export function useRegister(initialState) {
   return {
     values,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    response
   };
 }

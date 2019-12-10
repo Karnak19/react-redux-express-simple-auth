@@ -1,10 +1,12 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Home from "./Home";
 import Sports from "./Sports";
 import TheNavbar from "./Navbar";
+import Login from "./Login";
 
 function AuthRoute({ isAuth, component: Component, ...rest }) {
   return isAuth ? (
@@ -16,13 +18,28 @@ function AuthRoute({ isAuth, component: Component, ...rest }) {
 
 function Router({ isAuth }) {
   return (
-    <BrowserRouter>
+    <>
       <TheNavbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <AuthRoute isAuth={isAuth} path="/sports" component={Sports} />
-      </Switch>
-    </BrowserRouter>
+      <Route
+        render={({ location }) => {
+          return (
+            <TransitionGroup>
+              <CSSTransition key={location.key} timeout={450} classNames="fade">
+                <Switch location={location}>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/login" component={Login} />
+                  <AuthRoute
+                    isAuth={isAuth}
+                    path="/sports"
+                    component={Sports}
+                  />
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          );
+        }}
+      />
+    </>
   );
 }
 
@@ -32,4 +49,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Router);
+const connectedRouter = connect(mapStateToProps)(Router);
+
+export default connectedRouter;

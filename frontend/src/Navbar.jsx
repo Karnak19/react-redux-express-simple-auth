@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { LOGOUT } from "./reducers/auth";
+import { logOut } from "./store/actions";
 
 function TheNavbar({ isAuth, logOut }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,11 @@ function TheNavbar({ isAuth, logOut }) {
                 );
               })}
           </Nav>
-          {isAuth && (
+          {!isAuth ? (
+            <Button color="primary" tag={Link} to="/login">
+              Log in
+            </Button>
+          ) : (
             <Button color="danger" onClick={logOut}>
               Log out
             </Button>
@@ -59,11 +63,13 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    logOut: () => dispatch({ type: LOGOUT })
+    logOut: () => dispatch(logOut())
   };
 };
 
-export default connect(
+const connectedNavbar = connect(
   mapStateToProps,
   mapDispatchToProps
 )(TheNavbar);
+
+export default connectedNavbar;

@@ -1,70 +1,54 @@
-import React, { useEffect, useRef } from "react";
-import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Form, Input, Button, Row, Col, FormGroup } from "reactstrap";
+import React, { useState } from "react";
+import {
+  Container,
+  Nav,
+  NavItem,
+  NavLink,
+  TabPane,
+  TabContent
+} from "reactstrap";
 
-import { useLogin } from "./hooks/useLogin";
-import { LOGIN } from "./reducers/auth";
+import RegisterForm from "./RegisterForm";
+import LoginForm from "./LoginForm";
 
-function LoginForm({ storeToken }) {
-  const { values, response, handleChange, handleSubmit } = useLogin({
-    email: "",
-    password: ""
-  });
-  const history = useHistory();
+function Login() {
+  const [activeTab, setActiveTab] = useState(1);
+  const [tabs] = useState([
+    { id: 1, label: "Login", component: <LoginForm /> },
+    { id: 2, label: "Register", component: <RegisterForm /> }
+  ]);
 
-  const firstRender = useRef(true);
-
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      console.log("ComponentDidMount");
-      return;
-    }
-    storeToken(response.data.token);
-    history.push("/sports");
-
-    console.log("useEffect", response.data.token);
-  }, [response]);
+  const toggleTab = tab => {
+    activeTab !== tab && setActiveTab(tab);
+  };
 
   return (
-    <Row>
-      <Col xs={{ offset: 3, size: 6 }}>
-        <Form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Input
-              type="email"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Input
-              type="password"
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Button color="success" block type="submit">
-              Login
-            </Button>
-          </FormGroup>
-        </Form>
-      </Col>
-    </Row>
+    <Container className="mt-5 page">
+      <Nav tabs>
+        {tabs.map(tab => {
+          return (
+            <NavItem key={tab.id}>
+              <NavLink
+                active={activeTab === tab.id}
+                onClick={() => toggleTab(tab.id)}
+              >
+                {tab.label}
+              </NavLink>
+            </NavItem>
+          );
+        })}
+      </Nav>
+      <TabContent activeTab={activeTab} className="mt-5">
+        {tabs.map(tab => {
+          return (
+            <TabPane tabId={tab.id} key={tab.id}>
+              {tab.component}
+            </TabPane>
+          );
+        })}
+      </TabContent>
+    </Container>
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    storeToken: token => dispatch({ type: LOGIN, payload: token })
-  };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(LoginForm);
+export default Login;
