@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-
+const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 
@@ -12,7 +12,8 @@ router.post("/", async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        email
+        email,
+        isOAuth: false
       }
     });
     if (!user) {
@@ -35,5 +36,19 @@ router.post("/", async (req, res) => {
     res.status(400).json(err);
   }
 });
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/", session: false }),
+  (req, res) => {
+    const { jwt } = req.user;
+    res.redirect(`http://localhost:3000/login?token=${jwt}`);
+  }
+);
 
 module.exports = router;

@@ -18,6 +18,11 @@ const User = sequelize.define(
     },
     password: {
       type: Sequelize.STRING,
+      allowNull: true
+    },
+    isOAuth: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
       allowNull: false
     }
   },
@@ -25,8 +30,10 @@ const User = sequelize.define(
     hooks: {
       // Automated hash using this hooks
       beforeCreate: user => {
-        const salt = bcrypt.genSaltSync();
-        user.password = bcrypt.hashSync(user.password, salt);
+        if (user.password) {
+          const salt = bcrypt.genSaltSync();
+          user.password = bcrypt.hashSync(user.password, salt);
+        }
       }
     }
   }

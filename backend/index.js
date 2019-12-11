@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const logger = require("morgan");
+const passport = require("passport");
 const PORT = process.env.PORT || 8000;
 
 // Get the Sequelize config
@@ -13,6 +14,9 @@ const sequelize = require("./sequelize");
 app.use(cors());
 app.use(express.json());
 app.use(logger("tiny"));
+
+app.use(passport.initialize());
+require("./passport");
 
 // Routes
 app.get("/", (req, res) => res.send("Hello world !"));
