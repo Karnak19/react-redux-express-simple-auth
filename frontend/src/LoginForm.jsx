@@ -1,8 +1,22 @@
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { Form, Input, Button, Row, Col, FormGroup } from "reactstrap";
+import {
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  FormGroup,
+  Container
+} from "reactstrap";
 import queryString from "query-string";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGoogle,
+  faGithub,
+  faFacebook
+} from "@fortawesome/free-brands-svg-icons";
 
 import { useLogin } from "./hooks/useLogin";
 import { storeToken } from "./store/actions";
@@ -14,6 +28,30 @@ function LoginForm({ storeToken }) {
   });
   const history = useHistory();
   const location = useLocation();
+
+  const oAuthProviders = [
+    {
+      id: 1,
+      label: "Google",
+      color: "danger",
+      link: "http://localhost:8000/login/auth/google",
+      icon: faGoogle
+    },
+    {
+      id: 2,
+      label: "Github",
+      color: "secondary",
+      link: "http://localhost:8000/login/auth/github",
+      icon: faGithub
+    },
+    {
+      id: 3,
+      label: "Facebook",
+      color: "primary",
+      link: "http://localhost:8000/login/auth/facebook",
+      icon: faFacebook
+    }
+  ];
 
   const firstRender = useRef(true);
 
@@ -34,7 +72,7 @@ function LoginForm({ storeToken }) {
   }, [response]);
 
   return (
-    <>
+    <Container>
       <Row>
         <Col xs={{ offset: 3, size: 6 }}>
           <Form onSubmit={handleSubmit}>
@@ -66,17 +104,18 @@ function LoginForm({ storeToken }) {
       </Row>
       <hr style={{ backgroundColor: "#444444" }} />
       <Row>
-        <Col xs={{ size: 6, offset: 3 }}>
-          <Button
-            href="http://localhost:8000/login/auth/google"
-            block
-            color="danger"
-          >
-            Sign with Google
-          </Button>
-        </Col>
+        {oAuthProviders.map(provider => {
+          return (
+            <Col xs={{ size: 6, offset: 3 }} className="my-2">
+              <Button href={provider.link} block color={provider.color}>
+                <FontAwesomeIcon icon={provider.icon} className="mr-1" />
+                Sign with {provider.label}
+              </Button>
+            </Col>
+          );
+        })}
       </Row>
-    </>
+    </Container>
   );
 }
 

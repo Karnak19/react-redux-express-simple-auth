@@ -10,6 +10,7 @@ import {
 
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
+import NavItems from "./NavItems";
 
 function Login() {
   const [activeTab, setActiveTab] = useState(1);
@@ -26,16 +27,7 @@ function Login() {
     <Container className="mt-5 page">
       <Nav tabs>
         {tabs.map(tab => {
-          return (
-            <NavItem key={tab.id}>
-              <NavLink
-                active={activeTab === tab.id}
-                onClick={() => toggleTab(tab.id)}
-              >
-                {tab.label}
-              </NavLink>
-            </NavItem>
-          );
+          return <NavItems {...tab} activeTab={activeTab} toggle={toggleTab} />;
         })}
       </Nav>
       <TabContent activeTab={activeTab} className="mt-5">
