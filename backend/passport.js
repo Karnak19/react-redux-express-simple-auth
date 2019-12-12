@@ -8,6 +8,25 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 const User = require("./sequelize/models/users");
 
+const credentials = {
+  google: {
+    clientID: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    callbackURL: `${process.env.API_URL}/login/auth/google/callback`
+  },
+  github: {
+    clientID: process.env.GITHUB_ID,
+    clientSecret: process.env.GITHUB_SECRET,
+    callbackURL: `${process.env.API_URL}/login/auth/github/callback`
+  },
+  facebook: {
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: `${process.env.API_URL}/login/auth/facebook/callback`,
+    profileFields: ["id", "emails", "name"]
+  }
+};
+
 passport.serializeUser((user, done) => {
   done(null, user);
 });
@@ -18,11 +37,7 @@ passport.deserializeUser((user, done) => {
 
 passport.use(
   new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: "http://localhost:8000/login/auth/google/callback"
-    },
+    credentials.google,
     async (accesToken, refreshToken, profile, done) => {
       let userData = {
         email: profile.emails[0].value,
@@ -50,11 +65,7 @@ passport.use(
 
 passport.use(
   new GitHubStrategy(
-    {
-      clientID: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: "http://localhost:8000/login/auth/github/callback"
-    },
+    credentials.github,
     async (accesToken, refreshToken, profile, done) => {
       let userData = {
         email: profile.emails[0].value,
@@ -82,12 +93,7 @@ passport.use(
 
 passport.use(
   new FacebookStrategy(
-    {
-      clientID: process.env.FACEBOOK_ID,
-      clientSecret: process.env.FACEBOOK_SECRET,
-      callbackURL: "http://localhost:8000/login/auth/facebook/callback",
-      profileFields: ["id", "emails", "name"]
-    },
+    credentials.facebook,
     async (accesToken, refreshToken, profile, done) => {
       let userData = {
         email: profile.emails[0].value,
