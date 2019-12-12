@@ -51,4 +51,31 @@ router.get(
   }
 );
 
+router.get(
+  "/auth/github",
+  passport.authenticate("github", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { failureRedirect: "/", session: false }),
+  (req, res) => {
+    const { jwt } = req.user;
+    res.redirect(`http://localhost:3000/login?token=${jwt}`);
+  }
+);
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: ["email", "user_likes"] })
+);
+
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/", session: false }),
+  (req, res) => {
+    const { jwt } = req.user;
+    res.redirect(`http://localhost:3000/login?token=${jwt}`);
+  }
+);
+
 module.exports = router;
