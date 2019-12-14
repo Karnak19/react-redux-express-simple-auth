@@ -9,17 +9,30 @@ const User = require("../sequelize/models/users");
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
   try {
-    await User.create({
-      email,
-      password
+    const [user, created] = await User.findOrCreate({
+      where: {
+        email
+      },
+      defaults: {
+        password
+      }
     });
+    // console.log({ user }, { created });
+
+    if (!created) {
+      res.status(409).json({
+        message: "User already exists !"
+      });
+    }
     const payload = { email };
     const token = jwt.sign(payload, secret, {
       expiresIn: "1h"
     });
-    res.status(201).json({ token });
+    res.status(201).json({ ...user, token });
   } catch (err) {
-    res.status(422).json(err);
+    console.log({ err });
+
+    res.status(409).json(err);
   }
 });
 
