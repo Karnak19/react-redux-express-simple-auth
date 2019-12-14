@@ -3,6 +3,7 @@ import axios from "axios";
 
 export function useRegister(initialState) {
   const [values, setValues] = useState(initialState);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [response, setResponse] = useState(null);
 
@@ -16,14 +17,17 @@ export function useRegister(initialState) {
   const handleSubmit = async e => {
     e.preventDefault();
     if (values.password === values.valPassword) {
+      setLoading(true);
       try {
         const res = await axios.post("http://localhost:8000/register", {
           email: values.email,
           password: values.password
         });
         setResponse(res);
+        setLoading(false);
       } catch (err) {
-        console.log(err);
+        setErrors(err);
+        setLoading(false);
       }
     }
   };
@@ -32,6 +36,8 @@ export function useRegister(initialState) {
     values,
     handleChange,
     handleSubmit,
-    response
+    response,
+    errors,
+    loading
   };
 }
